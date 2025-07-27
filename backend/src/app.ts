@@ -50,10 +50,12 @@ app.use(morganMiddleware)
 import healthCheckRoute from "./routes/healthcheck.route"
 import betRoute from "./routes/bet.route"
 import balanceRoute from "./routes/balance.route"
+import gameRoundRoute from "./routes/gameround.route"
 
 app.use("/api/v1/healthcheck", healthCheckRoute)
 app.use("/api/v1/bets", betRoute)
 app.use("/api/v1/balances", balanceRoute)
+app.use("/api/v1/rounds", gameRoundRoute)
 
 // API documentation
 app.use(

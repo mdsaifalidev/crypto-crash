@@ -163,6 +163,90 @@ paths:
                     type: string
                     example: Internal Server Error
 
+  /rounds/{roundId}:
+    get:
+      summary: Get a game round by ID
+      description: Retrieve a game round using its unique round ID.
+      operationId: getGameRoundById
+      tags:
+        - Game Rounds
+      parameters:
+        - name: roundId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique ID of the game round
+      responses:
+        '200':
+          description: Game Round found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    example: 200
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Game Round found
+                  data:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: "6885bff3d1ff351681666765"
+                      roundId:
+                        type: integer
+                        example: 1
+                      startTime:
+                        type: string
+                        format: date-time
+                        example: "2025-07-27T05:58:16.543Z"
+                      cashPoint:
+                        type: number
+                        format: float
+                        example: 103.94
+                      serverSeed:
+                        type: string
+                        example: "0f2b06d4d2423f90373ce501a69ee07878e2c4020aa1e7909d181db9318c4cb4"
+                      clientSeed:
+                        type: string
+                        example: "fixed_client_seed"
+                      status:
+                        type: string
+                        example: "CRASHED"
+                      createdAt:
+                        type: string
+                        format: date-time
+                        example: "2025-07-27T05:58:11.551Z"
+                      updatedAt:
+                        type: string
+                        format: date-time
+                        example: "2025-07-27T06:00:01.318Z"
+                      __v:
+                        type: integer
+                        example: 0
+        '404':
+          description: Game Round not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    example: 404
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Game Round not found
 
   /healthcheck:
     get:

@@ -21,7 +21,7 @@ let multiplierTimer: NodeJS.Timeout | null = null
 const startBettingPhase = async (): Promise<void> => {
   const roundId = await getNextRoundId()
   const serverSeed = generateServerSeed()
-  const clientSeed = "fixed_client_seed"
+  const clientSeed = generateServerSeed()
   const cashPoint = calculateCashPoint({
     serverSeed,
     clientSeed,
