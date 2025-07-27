@@ -1,0 +1,204 @@
+openapi: 3.0.3
+info:
+  title: Crypto Crash
+  description: >-
+    Crypto Crash API documentation
+  version: 1.3.1
+  contact: {}
+servers:
+  - url: http://localhost:8080/api/v1
+paths:
+  /bets:
+    post:
+      summary: Place a new bet
+      description: Place a new bet using USD, which is converted to a crypto amount based on real-time price.
+      tags:
+        - Bets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - playerId
+                - usdAmount
+                - cryptoCurrency
+              properties:
+                playerId:
+                  type: string
+                  example: "64e5f34a7d57d4236e75e4e2"
+                usdAmount:
+                  type: number
+                  format: float
+                  example: 100
+                cryptoCurrency:
+                  type: string
+                  example: "BTC"
+      responses:
+        '201':
+          description: Bet placed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  statusCode:
+                    type: integer
+                    example: 201
+                  message:
+                    type: string
+                    example: Bet placed successfully
+        '400':
+          description: Invalid input or business rule violation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  statusCode:
+                    type: integer
+                    example: 400
+                  message:
+                    type: string
+                    example: Insufficient balance
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  statusCode:
+                    type: integer
+                    example: 500
+                  message:
+                    type: string
+                    example: Internal Server Error
+  
+  /balances/{playerId}:
+    get:
+      summary: Get balances by player ID
+      description: Returns the player's wallet balances and their USD equivalents based on current crypto prices.
+      tags:
+        - Balances
+      parameters:
+        - name: playerId
+          in: path
+          required: true
+          description: The ID of the player
+          schema:
+            type: string
+            example: "64e5f34a7d57d4236e75e4e2"
+      responses:
+        '200':
+          description: Balances retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  statusCode:
+                    type: integer
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      balances:
+                        type: object
+                        additionalProperties:
+                          type: number
+                        example:
+                          BTC: 0.5
+                          ETH: 1.2
+                      usdEquivalents:
+                        type: object
+                        additionalProperties:
+                          type: number
+                        example:
+                          BTC: 30000
+                          ETH: 2400
+        '404':
+          description: Wallet not found for the given player ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  statusCode:
+                    type: integer
+                    example: 404
+                  message:
+                    type: string
+                    example: Wallet not found
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  statusCode:
+                    type: integer
+                    example: 500
+                  message:
+                    type: string
+                    example: Internal Server Error
+
+
+  /healthcheck:
+    get:
+      summary: healthcheck
+      description: >-
+        This API endpoint is commonly used to determine the health status or
+        availability of a system or service.
+
+
+        It is a simple and lightweight endpoint designed to perform a quick
+        health check of the application or infrastructure.
+      operationId: healthcheck
+      responses:
+        '200':
+          description: healthcheck
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: Health check passed
+                  statusCode:
+                    type: number
+                    example: 200
+                  success:
+                    type: boolean
+                    example: true
+              examples:
+                healthcheck:
+                  value:
+                    data: OK
+                    message: Health check passed
+                    statusCode: 200
+                    success: true
