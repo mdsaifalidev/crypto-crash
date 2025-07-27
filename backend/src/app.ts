@@ -16,7 +16,7 @@ const file = fs.readFileSync(
   "utf8"
 )
 const swaggerDocument = YAML.parse(
-  file?.replace("- url: ${{server}}", "- url: http://localhost:8080/api/v1")
+  file?.replace("- url: ${{server}}", `- url: ${process.env.BASE_URL || "http://localhost:8080/api/v1"}`)
 )
 
 const app = express()
